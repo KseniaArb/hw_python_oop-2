@@ -86,8 +86,6 @@ class SportsWalking(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.height = height
-        self.weight = weight
-        self.duration = duration
 
     def get_spent_calories(self) -> float:
         """Calculates the calories spent while walking."""
