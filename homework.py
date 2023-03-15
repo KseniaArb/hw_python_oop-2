@@ -98,7 +98,7 @@ class SportsWalking(Training):
         calories = (((self.COEFF_WEIGHT
                      * self.weight
                      + (((self.get_mean_speed()
-                      * self.KMH_IN_MSEC)**2)
+                      * self.KMH_IN_MSEC) ** 2)
                       / (self.height / self.CM_IN_M))
                      * self.COEFF_WEIGHT_1
                      * self.weight))
