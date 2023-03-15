@@ -77,9 +77,6 @@ class Running(Training):
                 * self.duration * self.MIN_IN_H)
 
 
-
-
-
 class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
@@ -88,19 +85,29 @@ class SportsWalking(Training):
     COEFF_WEIGHT = 0.035
     COEFF_WEIGHT_1 = 0.029
 
-    def __init__(self, action: str, duration: float, weight: float, height: float) -> None:
+    def __init__(self, action: int,
+                 duration: float,
+                 weight: float,
+                 height: float,
+                 ) -> None:
         super().__init__(action, duration, weight)
         self.height = height
         self.weight = weight
         self.duration = duration
 
-
     def get_spent_calories(self) -> float:
         """Calculates the calories spent while walking."""
-      
-        calories = ((self.COEFF_WEIGHT * self.weight + (((self.get_mean_speed()*self.KMH_IN_MSEC)**2) / (self.height/self.CM_IN_M)) * self.COEFF_WEIGHT_1 * self.weight)) * self.duration * 60
-        
-        return(calories)
+
+        calories = (((self.COEFF_WEIGHT
+                     * self.weight
+                     + (((self.get_mean_speed()
+                     * self.KMH_IN_MSEC)**2)
+                     / (self.height / self.CM_IN_M))
+                     * self.COEFF_WEIGHT_1
+                     * self.weight))
+                     * self.duration * 60)
+
+        return (calories)
 
 
 class Swimming(Training):
@@ -132,9 +139,11 @@ class Swimming(Training):
         return (self.length_pool * self.count_pool
                 / self.M_IN_KM / self.duration)
 
+
 def main(training: Training) -> None:
     """Главная функция."""
     print(training.show_training_info().get_message())
+
 
 packages = [
     ('SWM', [720, 1, 80, 25, 40]),
