@@ -101,11 +101,12 @@ class SportsWalking(Training):
         calories = (((self.COEFF_WEIGHT
                      * self.weight
                      + (((self.get_mean_speed()
-                     * self.KMH_IN_MSEC)**2)
-                     / (self.height / self.CM_IN_M))
+                      * self.KMH_IN_MSEC)**2)
+                      / (self.height / self.CM_IN_M))
                      * self.COEFF_WEIGHT_1
                      * self.weight))
-                     * self.duration * 60)
+                    * self.duration * 60
+                    )
 
         return (calories)
 
@@ -151,11 +152,6 @@ packages = [
     ('WLK', [9000, 1, 75, 180]),
 ]
 
-if __name__ == '__main__':
-    for workout_type, data in packages:
-        training = read_package(workout_type, data)
-        main(training)
-
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
@@ -167,3 +163,9 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type not in trainings:
         raise KeyError(f'Тип тренировки не известен {workout_type}')
     return trainings[workout_type](*data)
+
+
+if __name__ == '__main__':
+    for workout_type, data in packages:
+        training = read_package(workout_type, data)
+        main(training)
