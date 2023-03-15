@@ -144,13 +144,6 @@ def main(training: Training) -> None:
     print(training.show_training_info().get_message())
 
 
-packages = [
-    ('SWM', [720, 1, 80, 25, 40]),
-    ('RUN', [15000, 1, 75]),
-    ('WLK', [9000, 1, 75, 180]),
-]
-
-
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     trainings: Dict[str, Type[Training]] = {
@@ -161,6 +154,13 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type not in trainings:
         raise KeyError(f'Тип тренировки не известен {workout_type}')
     return trainings[workout_type](*data)
+
+
+packages = [
+    ('SWM', [720, 1, 80, 25, 40]),
+    ('RUN', [15000, 1, 75]),
+    ('WLK', [9000, 1, 75, 180]),
+]
 
 
 if __name__ == '__main__':
