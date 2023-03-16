@@ -114,7 +114,6 @@ class Swimming(Training):
     LEN_STEP = 1.38
     COEFFICIENT_MID_SPEED = 1.1
     COEFFICIENT_WEIGHT = 2
-    M_IN_KM = 1000
 
     def __init__(self,
                  action: int,
