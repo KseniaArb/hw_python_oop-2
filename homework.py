@@ -74,11 +74,13 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
-    KMH_IN_MSEC = 0.278
     CM_IN_M = 100
+    M_IN_KM = 1000
+    SEC_IN_MIN = 60
     MIN_IN_H = 60
     COEFFICIENT_WEIGHT = 0.035
     COEFFICIENT_WEIGHT_1 = 0.029
+    KMH_IN_MSEC = round((M_IN_KM / (MIN_IN_H * SEC_IN_MIN)), 3)
 
     def __init__(self, action: int,
                  duration: float,
