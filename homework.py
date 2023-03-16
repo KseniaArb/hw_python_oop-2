@@ -146,14 +146,14 @@ def main(training: Training) -> None:
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    trainings: Dict[str, Type[Training]] = {
+    TRAININGS: Dict[str, Type[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
         'WLK': SportsWalking
     }
-    if workout_type not in trainings:
+    if workout_type not in TRAININGS:
         raise KeyError(f'Тип тренировки не известен {workout_type}')
-    return trainings[workout_type](*data)
+    return TRAININGS [workout_type](*data)
 
 
 if __name__ == '__main__':
