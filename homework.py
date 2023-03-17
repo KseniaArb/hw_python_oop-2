@@ -138,11 +138,6 @@ class Swimming(Training):
                 / self.M_IN_KM / self.duration)
 
 
-def main(training: Training) -> None:
-    """Главная функция."""
-    print(training.show_training_info().get_message())
-
-
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     TRAININGS: Dict[str, Type[Training]] = {
@@ -152,15 +147,20 @@ def read_package(workout_type: str, data: list) -> Training:
     }
     if workout_type not in TRAININGS:
         raise KeyError(f'Тип тренировки не известен {workout_type}')
-    return TRAININGS [workout_type](*data)
+    return TRAININGS[workout_type](*data)
+
+
+def main(training: Training) -> None:
+    """Главная функция."""
+    print(training.show_training_info().get_message())
 
 
 if __name__ == '__main__':
+    packages = [
+        ('SWM', [720, 1, 80, 25, 40]),
+        ('RUN', [15000, 1, 75]),
+        ('WLK', [9000, 1, 75, 180]),
+    ]
+
     for workout_type, data in packages:
         training = read_package(workout_type, data)
-
-packages = [
-    ('SWM', [720, 1, 80, 25, 40]),
-    ('RUN', [15000, 1, 75]),
-    ('WLK', [9000, 1, 75, 180]),
-]
