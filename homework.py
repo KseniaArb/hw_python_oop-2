@@ -78,8 +78,8 @@ class SportsWalking(Training):
     M_IN_KM = 1000
     SEC_IN_MIN = 60
     MIN_IN_H = 60
-    COEFFICIENT_WEIGHT = 0.035
-    COEFFICIENT_WEIGHT_1 = 0.029
+    CALORIES_WEIGHT_MULTIPLIER = 0.035
+    CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
     KMH_IN_MSEC = round((M_IN_KM / (MIN_IN_H * SEC_IN_MIN)), 3)
 
     def __init__(self, action: int,
@@ -90,19 +90,20 @@ class SportsWalking(Training):
         super().__init__(action, duration, weight)
         self.height = height
 
-    MIN_IN_H = 60
-
     def get_spent_calories(self) -> float:
         """Calculates the calories spent while walking."""
-        calories = (((self.COEFFICIENT_WEIGHT
+
+        MIN_IN_H = 60
+
+        calories = (((self.CALORIES_WEIGHT_MULTIPLIER
                      * self.weight
                      + (((self.get_mean_speed()
-                      * self.KMH_IN_MSEC) ** 2)
-                      / (self.height / self.CM_IN_M))
-                     * self.COEFFICIENT_WEIGHT_1
+                        * self.KMH_IN_MSEC) ** 2)
+                        / (self.height / self.CM_IN_M))
+                     * self.CALORIES_WEIGHT_MULTIPLIER_1
                      * self.weight))
                     * self.duration
-                    * 60
+                    * MIN_IN_H
                     )
 
         return (calories)
