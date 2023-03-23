@@ -95,18 +95,16 @@ class SportsWalking(Training):
 
         MIN_IN_H = 60
 
-        calories = (((self.CALORIES_WEIGHT_MULTIPLIER
-                     * self.weight
-                     + (((self.get_mean_speed()
-                        * self.KMH_IN_MSEC) ** 2)
-                        / (self.height / self.CM_IN_M))
-                     * self.CALORIES_WEIGHT_MULTIPLIER_1
-                     * self.weight))
-                    * self.duration
-                    * MIN_IN_H
-                    )
-
-        return (calories)
+        return (
+    (
+        self.CALORIES_WEIGHT_MULTIPLIER * self.weight
+        + (
+            (self.get_mean_speed() * self.KMH_IN_MSEC) ** 2
+            / (self.height / self.CM_IN_M)
+        )
+        * self.CALORIES_WEIGHT_MULTIPLIER_1 * self.weight
+    ) * self.duration * MIN_IN_H
+)
 
 
 class Swimming(Training):
@@ -149,7 +147,7 @@ TRAININGS: Dict[str, Type[Training]] = {
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in TRAININGS:
-        raise KeyError(f'Тип тренировки не известен {workout_type}')
+        raise KeyError(f'Тип тренировки не известен: {workout_type}')
     return TRAININGS[workout_type](*data)
 
 
@@ -163,6 +161,7 @@ if __name__ == '__main__':
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
+        ('WRK', [100, 200, 0]), 
     ]
 
     for workout_type, data in packages:
