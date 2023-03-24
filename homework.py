@@ -75,12 +75,10 @@ class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
     CM_IN_M = 100
-    M_IN_KM = 1000
     SEC_IN_MIN = 60
-    MIN_IN_H = 60
     CALORIES_WEIGHT_MULTIPLIER = 0.035
     CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
-    KMH_IN_MSEC = round((M_IN_KM / (MIN_IN_H * SEC_IN_MIN)), 3)
+    KMH_IN_MSEC = 0.278
 
     def __init__(self, action: int,
                  duration: float,
@@ -89,22 +87,21 @@ class SportsWalking(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.height = height
+        self.KMH_IN_MSEC = round((self.M_IN_KM / (self.MIN_IN_H * self.SEC_IN_MIN)), 3)
 
     def get_spent_calories(self) -> float:
         """Calculates the calories spent while walking."""
 
-        MIN_IN_H = 60
-
         return (
-    (
-        self.CALORIES_WEIGHT_MULTIPLIER * self.weight
-        + (
-            (self.get_mean_speed() * self.KMH_IN_MSEC) ** 2
-            / (self.height / self.CM_IN_M)
+            (
+                self.CALORIES_WEIGHT_MULTIPLIER * self.weight
+                + (
+                    (self.get_mean_speed() * self.KMH_IN_MSEC) ** 2
+                    / (self.height / self.CM_IN_M)
+                )
+                * self.CALORIES_WEIGHT_MULTIPLIER_1 * self.weight
+            ) * self.duration * self.MIN_IN_H
         )
-        * self.CALORIES_WEIGHT_MULTIPLIER_1 * self.weight
-    ) * self.duration * MIN_IN_H
-)
 
 
 class Swimming(Training):
