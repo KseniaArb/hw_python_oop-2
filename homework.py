@@ -87,7 +87,10 @@ class SportsWalking(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.height = height
-        self.KMH_IN_MSEC = round((self.M_IN_KM / (self.MIN_IN_H * self.SEC_IN_MIN)), 3)
+        self.KMH_IN_MSEC = round(
+            self.M_IN_KM / (
+                self.MIN_IN_H * self.SEC_IN_MIN), 3
+        )
 
     def get_spent_calories(self) -> float:
         """Calculates the calories spent while walking."""
@@ -143,8 +146,11 @@ TRAININGS: Dict[str, Type[Training]] = {
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
+
+    WARNING = f'Тип тренировки не известен: {workout_type}.'
+
     if workout_type not in TRAININGS:
-        raise KeyError(f'Тип тренировки не известен: {workout_type}')
+        raise KeyError(WARNING)
     return TRAININGS[workout_type](*data)
 
 
@@ -158,7 +164,7 @@ if __name__ == '__main__':
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
-        ('WRK', [100, 200, 0]), 
+        ('WRK', [100, 200, 0]),
     ]
 
     for workout_type, data in packages:
