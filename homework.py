@@ -143,14 +143,13 @@ TRAININGS: Dict[str, Type[Training]] = {
     'WLK': SportsWalking
 }
 
+WARNING = f'Тип тренировки не известен: {Training}.'
+
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-
-    WARNING = f'Тип тренировки не известен: {workout_type}.'
-
     if workout_type not in TRAININGS:
-        raise KeyError(WARNING)
+        raise ValueError(WARNING.format(workout_type=data))
     return TRAININGS[workout_type](*data)
 
 
