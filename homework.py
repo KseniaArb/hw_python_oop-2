@@ -164,6 +164,7 @@ if __name__ == '__main__':
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
         ('WRK', [100, 200, 0]),
+        ('JMP', [100, 1, 800]),
     ]
 
     for workout_type, data in packages:
