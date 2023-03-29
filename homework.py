@@ -2,6 +2,9 @@ from dataclasses import dataclass, asdict
 from typing import Dict, Type
 
 
+WARNING = 'Тип тренировки не известен: {Training:.3f}.'
+
+
 @dataclass
 class InfoMessage:
     """Информационное сообщение о тренировке."""
@@ -76,9 +79,11 @@ class SportsWalking(Training):
 
     CM_IN_M = 100
     SEC_IN_MIN = 60
+    M_IN_KM = 1000
+    MIN_IN_H = 60
     CALORIES_WEIGHT_MULTIPLIER = 0.035
     CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
-    KMH_IN_MSEC = 0.278
+    KMH_IN_MSEC = 0.278  # средняя_скорость_в_метрах_в_секунду.
 
     def __init__(self, action: int,
                  duration: float,
@@ -111,7 +116,7 @@ class Swimming(Training):
     """Тренировка плавание."""
 
     LEN_STEP = 1.38
-    MID_SPEED_MULTIPLIER = 1.1
+    MID_SPEED_SHIFT = 1.1
     WEIGHT_MULTIPLIER = 2
 
     def __init__(self,
@@ -127,7 +132,7 @@ class Swimming(Training):
 
     def get_spent_calories(self) -> float:
         return ((self.get_mean_speed()
-                 + self.MID_SPEED_MULTIPLIER)
+                 + self.MID_SPEED_SHIFT)
                 * self.WEIGHT_MULTIPLIER
                 * self.weight
                 * self.duration)
@@ -142,8 +147,6 @@ TRAININGS: Dict[str, Type[Training]] = {
     'RUN': Running,
     'WLK': SportsWalking
 }
-
-WARNING = 'Тип тренировки не известен: {Training:.3f}.'
 
 
 def read_package(workout_type: str, data: list) -> Training:
@@ -164,6 +167,7 @@ if __name__ == '__main__':
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
         ('WRK', [100, 200, 0]),
+        ([800, 10, 200]),
         ('JMP', [100, 1, 800]),
     ]
 
