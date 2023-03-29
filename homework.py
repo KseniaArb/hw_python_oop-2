@@ -143,7 +143,7 @@ TRAININGS: Dict[str, Type[Training]] = {
     'WLK': SportsWalking
 }
 
-WARNING = f'Тип тренировки не известен: {Training}.'
+WARNING = 'Тип тренировки не известен: {Training:.3f}.'
 
 
 def read_package(workout_type: str, data: list) -> Training:
