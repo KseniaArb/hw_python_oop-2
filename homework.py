@@ -152,8 +152,9 @@ TRAININGS: Dict[str, Type[Training]] = {
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in TRAININGS:
-        raise ValueError(WARNING.format(workout_type=data))
-    return TRAININGS[workout_type](*data)
+        raise ValueError(WARNING.format(Training=data))
+    else:
+        return TRAININGS[workout_type](*data)
 
 
 def main(training: Training) -> None:
