@@ -149,12 +149,17 @@ TRAININGS: Dict[str, Type[Training]] = {
 }
 
 
+
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    if workout_type not in TRAININGS:
-        raise ValueError(WARNING.format(Training=data))
-    else:
+    try:
+        TRAININGS: dict(str, Training) = {'SWM': Swimming,
+                                          'RUN': Running,
+                                          'WLK':SportsWalking,
+                                          }
         return TRAININGS[workout_type](*data)
+    except (KeyError, TypeError) as e:
+        raise ValueError(WARNING.format(Training=data))
 
 
 def main(training: Training) -> None:
