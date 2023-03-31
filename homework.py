@@ -2,7 +2,9 @@ from dataclasses import dataclass, asdict
 from typing import Dict, Type
 
 
-WARNING = 'Тип тренировки не известен: {Training:.3f}.'
+warning = 'Тип тренировки не известен: {Training}.'
+
+incorrect = 'Указано неверное количетво параметров тренировки: {data}'
 
 
 @dataclass
@@ -28,9 +30,9 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
-    LEN_STEP = 0.65
-    M_IN_KM = 1000
-    MIN_IN_H = 60
+    LEN_STEP: float = 0.65
+    M_IN_KM: int = 1000
+    MIN_IN_H: int = 60
 
     def __init__(self,
                  action: int,
@@ -77,13 +79,14 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
-    CM_IN_M = 100
     SEC_IN_MIN = 60
     M_IN_KM = 1000
     MIN_IN_H = 60
+    SEC_IN_H = (MIN_IN_H * SEC_IN_MIN)
+    KMH_IN_MSEC = round((M_IN_KM / SEC_IN_H), 3)
     CALORIES_WEIGHT_MULTIPLIER = 0.035
     CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
-    KMH_IN_MSEC = 0.278  # средняя_скорость_в_метрах_в_секунду.
+    CM_IN_M = 100
 
     def __init__(self, action: int,
                  duration: float,
@@ -151,14 +154,10 @@ TRAININGS: Dict[str, Type[Training]] = {
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    try:
-        TRAININGS: dict(str, Training) = {'SWM': Swimming,
-                                          'RUN': Running,
-                                          'WLK': SportsWalking,
-                                          }
+    if workout_type not in TRAININGS:
+        raise ValueError(warning.format(Training=data))
+    else:
         return TRAININGS[workout_type](*data)
-    except (KeyError, TypeError):
-        raise ValueError(WARNING.format(Training=data))
 
 
 def main(training: Training) -> None:
