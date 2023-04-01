@@ -146,16 +146,18 @@ class Swimming(Training):
 
 
 TRAININGS: Dict[str, Type[Training]] = {
-    'SWM': Swimming,
-    'RUN': Running,
-    'WLK': SportsWalking
+    'SWM': (Swimming),
+    'RUN': (Running),
+    'WLK': (SportsWalking),
 }
 
 
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
-    if workout_type not in TRAININGS:
+    if workout_type not in (TRAININGS):
         raise ValueError(warning.format(Training=data))
+    if workout_type not in (workout_type):
+        raise ValueError(incorrect.format(Training=data))
     else:
         return TRAININGS[workout_type](*data)
 
@@ -171,8 +173,6 @@ if __name__ == '__main__':
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
         ('WRK', [100, 200, 0]),
-        ([800, 10, 200]),
-        ('JMP', [100, 1, 800]),
     ]
 
     for workout_type, data in packages:
