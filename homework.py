@@ -1,5 +1,5 @@
 from dataclasses import dataclass, asdict
-from typing import Dict, Type
+from typing import Dict, Type, ClassVar
 
 
 warning = 'Тип тренировки не известен: {Training}.'
@@ -30,9 +30,9 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
-    LEN_STEP: float = 0.65
-    M_IN_KM: int = 1000
-    MIN_IN_H: int = 60
+    LEN_STEP: ClassVar[float] = 0.65
+    M_IN_KM: ClassVar[int] = 1000
+    MIN_IN_H: ClassVar[int] = 60
 
     def __init__(self,
                  action: int,
@@ -65,8 +65,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    CALORIES_MEAN_SPEED_MULTIPLIER = 18
-    CALORIES_MEAN_SPEED_SHIFT = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 18
+    CALORIES_MEAN_SPEED_SHIFT: ClassVar[float] = 1.79
 
     def get_spent_calories(self) -> float:
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER
@@ -79,14 +79,14 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
-    SEC_IN_MIN = 60
-    M_IN_KM = 1000
-    MIN_IN_H = 60
+    SEC_IN_MIN: ClassVar[int] = 60
+    M_IN_KM: ClassVar[int] = 1000
+    MIN_IN_H: ClassVar[int] = 60
     SEC_IN_H = (MIN_IN_H * SEC_IN_MIN)
     KMH_IN_MSEC = round((M_IN_KM / SEC_IN_H), 3)
-    CALORIES_WEIGHT_MULTIPLIER = 0.035
-    CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
-    CM_IN_M = 100
+    CALORIES_WEIGHT_MULTIPLIER: ClassVar[float] = 0.035
+    CALORIES_WEIGHT_MULTIPLIER_1: ClassVar[float] = 0.029
+    CM_IN_M: ClassVar[int] = 100
 
     def __init__(self, action: int,
                  duration: float,
@@ -95,10 +95,6 @@ class SportsWalking(Training):
                  ) -> None:
         super().__init__(action, duration, weight)
         self.height = height
-        self.KMH_IN_MSEC = round(
-            self.M_IN_KM / (
-                self.MIN_IN_H * self.SEC_IN_MIN), 3
-        )
 
     def get_spent_calories(self) -> float:
         """Calculates the calories spent while walking."""
@@ -118,9 +114,9 @@ class SportsWalking(Training):
 class Swimming(Training):
     """Тренировка плавание."""
 
-    LEN_STEP = 1.38
-    MID_SPEED_SHIFT = 1.1
-    WEIGHT_MULTIPLIER = 2
+    LEN_STEP: ClassVar[float] = 1.38
+    MID_SPEED_SHIFT: ClassVar[float] = 1.1
+    WEIGHT_MULTIPLIER: ClassVar[float] = 2
 
     def __init__(self,
                  action: int,
