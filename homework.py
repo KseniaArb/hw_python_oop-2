@@ -2,9 +2,9 @@ from dataclasses import dataclass, asdict
 from typing import Dict, Type, ClassVar
 
 
-warning = 'Тип тренировки не известен: {Training}.'
+TRAIN_TYPE_E = 'Тип тренировки не известен: {training}.'
 
-incorrect = 'Указано неверное количетво параметров тренировки: {data}'
+TRAIN_PARAM_E = 'Указано неверное количетво параметров тренировки: {data}'
 
 
 @dataclass
@@ -30,9 +30,9 @@ class InfoMessage:
 class Training:
     """Базовый класс тренировки."""
 
-    LEN_STEP: ClassVar[float] = 0.65
-    M_IN_KM: ClassVar[int] = 1000
-    MIN_IN_H: ClassVar[int] = 60
+    LEN_STEP = 0.65
+    M_IN_KM = 1000
+    MIN_IN_H = 60
 
     def __init__(self,
                  action: int,
@@ -65,8 +65,8 @@ class Training:
 class Running(Training):
     """Тренировка: бег."""
 
-    CALORIES_MEAN_SPEED_MULTIPLIER: ClassVar[float] = 18
-    CALORIES_MEAN_SPEED_SHIFT: ClassVar[float] = 1.79
+    CALORIES_MEAN_SPEED_MULTIPLIER = 18
+    CALORIES_MEAN_SPEED_SHIFT = 1.79
 
     def get_spent_calories(self) -> float:
         return ((self.CALORIES_MEAN_SPEED_MULTIPLIER
@@ -79,14 +79,15 @@ class Running(Training):
 class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
-    SEC_IN_MIN: ClassVar[int] = 60
-    M_IN_KM: ClassVar[int] = 1000
-    MIN_IN_H: ClassVar[int] = 60
-    SEC_IN_H = (MIN_IN_H * SEC_IN_MIN)
-    KMH_IN_MSEC = round((M_IN_KM / SEC_IN_H), 3)
-    CALORIES_WEIGHT_MULTIPLIER: ClassVar[float] = 0.035
-    CALORIES_WEIGHT_MULTIPLIER_1: ClassVar[float] = 0.029
-    CM_IN_M: ClassVar[int] = 100
+    SEC_IN_MIN = 60
+    KMH_IN_MSEC = round(Training.M_IN_KM
+                        / (
+                            Training.MIN_IN_H
+                            * SEC_IN_MIN), 3
+                        )
+    CALORIES_WEIGHT_MULTIPLIER = 0.035
+    CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
+    CM_IN_M = 100
 
     def __init__(self, action: int,
                  duration: float,
@@ -151,11 +152,10 @@ TRAININGS: Dict[str, Type[Training]] = {
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in (TRAININGS):
-        raise ValueError(warning.format(Training=data))
+        raise ValueError(TRAIN_TYPE_E.format(Training=data))
     if workout_type not in (workout_type):
-        raise ValueError(incorrect.format(Training=data))
-    else:
-        return TRAININGS[workout_type](*data)
+        raise ValueError(TRAIN_PARAM_E.format(*data))
+    return TRAININGS[workout_type](*data)
 
 
 def main(training: Training) -> None:
