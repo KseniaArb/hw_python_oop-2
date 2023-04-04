@@ -1,10 +1,10 @@
 from dataclasses import dataclass, asdict
-from typing import Dict, Type, ClassVar
+from typing import Dict, Type
 
 
 TRAINING_TYPE_ERROR = 'Тип тренировки не известен: {training}.'
 
-TRAINING_PARAM_ERROR = 'Указано неверное количетво параметров тренировки: {*data}'
+TRAINING_PARAM_ERROR = 'Указано неверное количетво параметров тренировки: {data}'
 
 
 @dataclass
@@ -80,9 +80,11 @@ class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
     SEC_IN_MIN = 60
-    KMH_IN_MSEC = round(
-        Training.M_IN_KM / (Training.MIN_IN_H * SEC_IN_MIN), 3
-    )
+    KMH_IN_MSEC = round(Training.M_IN_KM
+                        / (
+                            Training.MIN_IN_H
+                            * SEC_IN_MIN), 3
+                        )
     CALORIES_WEIGHT_MULTIPLIER = 0.035
     CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
     CM_IN_M = 100
@@ -152,7 +154,7 @@ def read_package(workout_type: str, data: list) -> Training:
     if workout_type not in (TRAININGS):
         raise ValueError(TRAINING_TYPE_ERROR.format(training=workout_type))
     if workout_type not in (workout_type):
-        raise ValueError(TRAINING_PARAM_ERROR.format(*data))
+        raise ValueError(TRAINING_PARAM_ERROR.format(data))
     return TRAININGS[workout_type](*data)
 
 
