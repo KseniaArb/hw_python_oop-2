@@ -4,7 +4,7 @@ from typing import Dict, Type
 
 TRAINING_TYPE_ERROR = 'Тип тренировки не известен: {training}.'
 
-TRAINING_PARAM_ERROR = 'Указано неверное количетво параметров тренировки: {data}'
+TRAINING_PARAM_ERROR = 'Неверное количетво параметров тренировки: {data}'
 
 
 @dataclass
