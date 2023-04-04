@@ -2,9 +2,9 @@ from dataclasses import dataclass, asdict
 from typing import Dict, Type, ClassVar
 
 
-TRAIN_TYPE_E = 'Тип тренировки не известен: {training}.'
+TRAINING_TYPE_ERROR = 'Тип тренировки не известен: {training}.'
 
-TRAIN_PARAM_E = 'Указано неверное количетво параметров тренировки: {data}'
+TRAINING_PARAM_ERROR = 'Указано неверное количетво параметров тренировки: {*data}'
 
 
 @dataclass
@@ -80,11 +80,9 @@ class SportsWalking(Training):
     """Тренировка спортивная ходьба."""
 
     SEC_IN_MIN = 60
-    KMH_IN_MSEC = round(Training.M_IN_KM
-                        / (
-                            Training.MIN_IN_H
-                            * SEC_IN_MIN), 3
-                        )
+    KMH_IN_MSEC = round(
+        Training.M_IN_KM / (Training.MIN_IN_H * SEC_IN_MIN), 3
+    )
     CALORIES_WEIGHT_MULTIPLIER = 0.035
     CALORIES_WEIGHT_MULTIPLIER_1 = 0.029
     CM_IN_M = 100
@@ -115,9 +113,9 @@ class SportsWalking(Training):
 class Swimming(Training):
     """Тренировка плавание."""
 
-    LEN_STEP: ClassVar[float] = 1.38
-    MID_SPEED_SHIFT: ClassVar[float] = 1.1
-    WEIGHT_MULTIPLIER: ClassVar[float] = 2
+    LEN_STEP = 1.38
+    MID_SPEED_SHIFT = 1.1
+    WEIGHT_MULTIPLIER = 2
 
     def __init__(self,
                  action: int,
@@ -152,9 +150,9 @@ TRAININGS: Dict[str, Type[Training]] = {
 def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in (TRAININGS):
-        raise ValueError(TRAIN_TYPE_E.format(Training=data))
+        raise ValueError(TRAINING_TYPE_ERROR.format(training=workout_type))
     if workout_type not in (workout_type):
-        raise ValueError(TRAIN_PARAM_E.format(*data))
+        raise ValueError(TRAINING_PARAM_ERROR.format(*data))
     return TRAININGS[workout_type](*data)
 
 
