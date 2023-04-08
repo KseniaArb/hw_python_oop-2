@@ -153,9 +153,14 @@ def read_package(workout_type: str, data: list) -> Training:
     """Прочитать данные полученные от датчиков."""
     if workout_type not in (TRAININGS):
         raise ValueError(TRAINING_TYPE_ERROR.format(training=workout_type))
-    if workout_type not in (workout_type):
-        raise ValueError(TRAINING_PARAM_ERROR.format(data))
-    return TRAININGS[workout_type](*data)
+    elif workout_type == 'SWM':
+        return Swimming(data[0], data[1], data[2], data[3], data[4])
+    elif workout_type == 'RUN':
+        return Running(data[0], data[1], data[2])
+    elif workout_type == 'WLK':
+        return SportsWalking(data[0], data[1], data[2], data[3])
+    else:
+        return TRAININGS[workout_type](*data)
 
 
 def main(training: Training) -> None:
